@@ -9,16 +9,19 @@ class SquircleInFboRenderer( QtQuick.QQuickFramebufferObject.Renderer ):
 
         self.squircle = squircle_renderer.SquircleRenderer()
         self.squircle.initialize()
+        
+        self.__fbo = None
 
     def render( self ):
         self.squircle.render()
         self.update()
 
-    def createFrameBufferObject( self, size ):
+    def createFramebufferObject( self, size ):
         format = QtGui.QOpenGLFramebufferObjectFormat()
         format.setAttachment( QtGui.QOpenGLFramebufferObject.CombinedDepthStencil )
         format.setSamples( 4 )
-        return QtGui.QOpenGLFramebufferObject( size, format )
+        self.__fbo = QtGui.QOpenGLFramebufferObject( size, format )
+        return self.__fbo
 
 class Squircle( QtQuick.QQuickFramebufferObject ):
     tChanged = QtCore.pyqtSignal()
